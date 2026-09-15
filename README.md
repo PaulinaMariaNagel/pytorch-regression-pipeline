@@ -1,6 +1,3 @@
-# pytorch-regression-pipeline
-Minimal, leak-free PyTorch regression pipeline featuring K-Fold cross-validation, mini-batch DataLoader, early stopping, and out-of-fold calibration.
-
 # PyTorch K-Fold Regression Pipeline
 
 A modular, production-ready PyTorch template for continuous regression tasks featuring strictly leak-free $K$-Fold cross-validation, dynamic mini-batching via `DataLoader`, validation-monitored early stopping with checkpoint restoration, and aggregated out-of-fold calibration.
