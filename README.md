@@ -9,10 +9,10 @@ A modular, production-ready PyTorch template for continuous regression tasks fea
 
 ## Key Highlights & Methodological Best Practices
 
-* **Zero Data Leakage**: Feature standardization (`StandardScaler`) is fitted exclusively on each training fold (`fit_transform`) and subsequently mapped to the validation fold (`transform`).
-* **State Checkpointing & Early Stopping**: Monitors out-of-sample validation loss per epoch. If performance fails to improve within the specified patience window, training halts early and optimal parameter tensors (`state_dict`) are restored via `copy.deepcopy`.
-* **Clean Mini-Batching**: Integrates `TensorDataset` and `DataLoader` with per-epoch shuffle to ensure stable stochastic gradient descent (Adam) with $L_2$ weight decay regularization.
-* **Out-of-Fold (OOF) Evaluation**: Collects raw model predictions across all held-out folds to compute unbiased overall performance metrics ($R^2$, MSE, MAE) and visualize true vs. predicted regression calibration.
+* **Minimised Data Leakage**: Feature standardisation (`StandardScaler`) is fitted exclusively on each training fold (`fit_transform`) and subsequently mapped to the validation fold (`transform`).
+* **State Checkpointing & Early Stopping**: Monitors out-of-sample validation loss per epoch; if performance fails to improve within the specified patience window, training halts early and optimal parameter tensors (`state_dict`) are restored via `copy.deepcopy`
+* **Clean Mini-Batching**: Integrates `TensorDataset` and `DataLoader` with per-epoch shuffle to ensure stable stochastic gradient descent (Adam) with $L_2$ weight decay regularisation
+* **Out-of-Fold (OOF) Evaluation**: Collects raw model predictions across all held-out folds to compute unbiased overall performance metrics ($R^2$, MSE, MAE) ,and visualise true vs. predicted regression calibration
 
 ---
 
@@ -37,4 +37,5 @@ Training Folds (4/5)   Validation Fold (1/5)
     └──────────┬──────────┘
                
    Aggregated Out-of-Fold (OOF)
+       Metrics & Scatter Plot
        Metrics & Scatter Plot
