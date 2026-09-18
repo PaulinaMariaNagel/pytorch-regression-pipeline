@@ -11,14 +11,12 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
 # Reproducibility and hardware config
-
 torch.manual_seed(42)
 np.random.seed(42)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
 # generate dataset
-
 X_raw, y_raw = make_regression(
     n_samples=1000,
     n_features=10,
@@ -27,8 +25,7 @@ X_raw, y_raw = make_regression(
     random_state=42
 )
 
-# model architecture
-
+# model 
 class RegressionMLP(nn.Module):
     def __init__(self, input_dim: int, hidden_dim: int):
         super(RegressionMLP, self).__init__()
@@ -45,8 +42,7 @@ class RegressionMLP(nn.Module):
         return self.network(x)
 
 
-# early stop utility
-
+# early stop 
 class EarlyStopping:
     """Monitors validation loss and preserves best model weights via deepcopy."""
     def __init__(self, patience: int = 15, min_delta: float = 1e-4):
@@ -73,7 +69,6 @@ class EarlyStopping:
 
 
 # k fold cross validation
-
 n_splits = 5
 kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
 
@@ -86,8 +81,7 @@ cv_mae = []
 cv_r2 = []
 oof_predictions = np.zeros_like(y_raw)
 
-# cross-alidation oop with mini batching and arly stopping
-
+# cross-alidation oop with mini batching and early stopping
 for fold, (train_idx, val_idx) in enumerate(kf.split(X_raw, y_raw)):
     print(f"\n--- Training Fold {fold + 1}/{n_splits} ---")
 
@@ -95,7 +89,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_raw, y_raw)):
     X_train, X_val = X_raw[train_idx], X_raw[val_idx]
     y_train, y_val = y_raw[train_idx], y_raw[val_idx]
 
-    # Preprocessing: Fit scaler strictly on training split to prevent data leakage
+    # Preprocessing; Fit scaler strictly on training split to prevent data leakage
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_val_scaled = scaler.transform(X_val)
@@ -162,7 +156,6 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_raw, y_raw)):
 
 
 # aggregated summary statistics
-
 print("\n" + "=" * 45)
 print(f"=== {n_splits}-Fold Cross-Validation Summary ===")
 print("=" * 45)
@@ -173,8 +166,7 @@ print(f"Mean R²  : {np.mean(cv_r2):.3f} (+/- {np.std(cv_r2):.3f})")
 overall_r2 = r2_score(y_raw, oof_predictions)
 print(f"Overall OOF R² : {overall_r2:.3f}")
 
-# Out-of-Fold Calibration Plot
-
+# OOF Plot
 plt.figure(figsize=(7, 6))
 plt.scatter(y_raw, oof_predictions, alpha=0.5, color="#1f77b4", edgecolors="none")
 
